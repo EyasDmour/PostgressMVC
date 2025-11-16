@@ -1,0 +1,7 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS dev
+
+WORKDIR /app
+
+# For dev you do NOT copy source code here.
+# dotnet watch will compile whatever is in /app (volume-mounted)
+CMD ["dotnet", "watch", "run", "--urls=http://0.0.0.0:5000"]

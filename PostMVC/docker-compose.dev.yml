@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app        # Mount your local source code
+      - /app/bin       # Prevent overwriting build dirs
+      - /app/obj       # Prevent overwriting build dirs
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
