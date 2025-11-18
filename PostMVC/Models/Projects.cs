@@ -8,11 +8,11 @@ public class Projects
     public int Id { get; set; }
     [Required]
     public required string Name { get; set; }
-    public string Description { get; set; } = null!;
-    public DateTime StartDate { get; set; } = DateTime.Now;
+    public string Description { get; set; } = string.Empty;
+    public DateTime StartDate { get; set; } = DateTime.UtcNow;
     [Required]
 
-    public DateTime EndDate { get; set; } = DateTime.Now.AddMonths(1);
+    public DateTime EndDate { get; set; } = DateTime.UtcNow.AddMonths(1);
     [Required]
     
     public int Priority { get; set; }

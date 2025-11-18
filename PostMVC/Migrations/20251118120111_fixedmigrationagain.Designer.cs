@@ -12,8 +12,8 @@ using PostMVC.Data;
 namespace PostMVC.Migrations
 {
     [DbContext(typeof(PostMVCContext))]
-    [Migration("20251118112722_FixedInitialMigration")]
-    partial class FixedInitialMigration
+    [Migration("20251118120111_fixedmigrationagain")]
+    partial class fixedmigrationagain
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
