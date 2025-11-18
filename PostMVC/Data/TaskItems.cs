@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PostMVC.Data;
 
-public class TaskItem
+public class TaskItems
 {
     public int Id { get; set; }
     [Required]

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PostMVC.Models;
 
-public class Project
+public class Projects
 {
     public int Id { get; set; }
     [Required]

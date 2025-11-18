@@ -9,6 +9,6 @@ public class PostMVCContext : DbContext
         : base(options)
     {
     }
-    public DbSet<Project> Project { get; set; } = default!;
-    public DbSet<TaskItem> TaskItem { get; set; } = default!;
+    public DbSet<Projects> Projects { get; set; } = default!;
+    public DbSet<TaskItems> TaskItems { get; set; } = default!;
 }
