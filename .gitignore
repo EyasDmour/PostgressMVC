@@ -4,11 +4,7 @@
 [Ll]og/
 
 # VS Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.vscode/
 
 # ASP.NET Core static/generated assets
 **/wwwroot/lib/
