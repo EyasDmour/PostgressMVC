@@ -14,7 +14,8 @@ namespace PostMVC.Controllers
         // GET: ProjectsController
         public ActionResult Index()
         {
-            return View();
+            var projects = _context.Projects.ToList();
+            return View(projects);
         }
 
     }
