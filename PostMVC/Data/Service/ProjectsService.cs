@@ -11,10 +11,13 @@ public class ProjectsService : IProjectsService
     {
         _context = context;
     }
-    public Task Add(Projects project)
+    public async Task Add(Projects project)
     {
+        project.StartDate = DateTime.SpecifyKind(project.StartDate, DateTimeKind.Utc);
+        project.EndDate   = DateTime.SpecifyKind(project.EndDate, DateTimeKind.Utc);
+
         _context.Projects.Add(project);
-        return _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<Projects>> GetAll()

@@ -14,6 +14,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=postmvc;Username=postmvc;Password=postmvc_pwd
+      - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=1
 
   db:
     image: postgres:16
