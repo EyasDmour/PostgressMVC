@@ -10,5 +10,5 @@ public class PostMVCContext : DbContext
     {
     }
     public DbSet<Projects> Projects { get; set; } = default!;
-    public DbSet<TaskItems> TaskItems { get; set; } = default!;
+    public DbSet<Tasks> Tasks { get; set; } = default!;
 }
