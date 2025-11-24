@@ -1,6 +1,11 @@
 ﻿@model IEnumerable<PostMVC.Models.Projects>
 
 <h1 class="display-4">Projects</h1>
+@if (Model == null || !Model.Any()){
+<div class="alert alert-warning" role="alert">
+    No projects found! <a asp-action="Create" class="btn btn-primary btn-sm ml-2">Create New Project</a>
+</div>
+} else {
 <table class="table table-striped table-hover mt-4">
     <thead class="thead-light">
         <tr>
@@ -14,6 +19,7 @@
         </tr>
     </thead>
     <tbody>
+
 @foreach (var item in Model) {
         <tr>
             <td>
@@ -38,8 +44,9 @@
                 <a asp-controller="Tasks" asp-action="Create" asp-route-projectId="@item.Id" class="btn btn-sm btn-secondary">Add Task</a>
             </td>
         </tr>
-}
-
+    }
 
     </tbody>
 </table>
+    
+}

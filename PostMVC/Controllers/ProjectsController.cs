@@ -37,5 +37,26 @@ namespace PostMVC.Controllers
             return View(project);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await _projectsService.Delete(id);
+            return RedirectToAction("Index", "Tasks");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddMember(int projectId, string username)
+        {
+            try
+            {
+                await _projectsService.AddMember(projectId, username);
+                return RedirectToAction("Index", "Tasks"); // Redirect back to board
+            }
+            catch
+            {
+                // Handle error (e.g. user not found)
+                return RedirectToAction("Index", "Tasks");
+            }
+        }
     }
 }

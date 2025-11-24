@@ -49,7 +49,28 @@ public class ApiProjectsService : IProjectsService
         var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
         var response = await _httpClient.PostAsync($"{_baseUrl}/api/Projects", content);
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            throw new HttpRequestException($"API Error: {response.StatusCode} - {errorContent}");
+        }
+    }
+
+    public async Task Delete(int id)
+    {
+        AddAuthorizationHeader();
+        var response = await _httpClient.DeleteAsync($"{_baseUrl}/api/Projects/{id}");
         response.EnsureSuccessStatusCode();
     }
 
+    public async Task AddMember(int projectId, string username)
+    {
+        AddAuthorizationHeader();
+        var json = JsonSerializer.Serialize(username);
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync($"{_baseUrl}/api/Projects/{projectId}/members", content);
+        response.EnsureSuccessStatusCode();
+    }
 }

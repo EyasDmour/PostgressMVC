@@ -38,6 +38,42 @@ public class ProjectsController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = project.Id }, project);
     }
 
+    // DELETE: api/Projects/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        try
+        {
+            var userId = GetUserId();
+            await _service.Delete(id, userId);
+            return NoContent();
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Forbid(ex.Message);
+        }
+    }
+
+    // POST: api/Projects/5/members
+    [HttpPost("{id}/members")]
+    public async Task<IActionResult> AddMember(int id, [FromBody] string username)
+    {
+        try
+        {
+            var userId = GetUserId();
+            await _service.AddMember(id, username, userId);
+            return Ok();
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     private int GetUserId()
     {
         var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub) ?? User.FindFirst(ClaimTypes.NameIdentifier);

@@ -51,4 +51,28 @@ public class ApiTasksService : ITasksService
         var response = await _httpClient.PostAsync($"{_baseUrl}/api/Tasks", content);
         response.EnsureSuccessStatusCode();
     }
+
+    public async Task Update(Tasks task)
+    {
+        AddAuthorizationHeader();
+        var json = JsonSerializer.Serialize(task);
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PutAsync($"{_baseUrl}/api/Tasks/{task.Id}", content);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task Delete(int id)
+    {
+        AddAuthorizationHeader();
+        var response = await _httpClient.DeleteAsync($"{_baseUrl}/api/Tasks/{id}");
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task<Tasks?> GetById(int id)
+    {
+        AddAuthorizationHeader();
+        var allTasks = await GetAll();
+        return allTasks.FirstOrDefault(t => t.Id == id);
+    }
 }

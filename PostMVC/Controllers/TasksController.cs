@@ -20,18 +20,27 @@ namespace PostMVC.Controllers
         }
 
         [HttpGet("")]
-        public async Task<ActionResult> Index(int? projectId)
+        public async Task<ActionResult> Index()
         {
-            ViewBag.Projects = await _projectsService.GetAll();
+            var projects = await _projectsService.GetAll();
+            var allTasks = await _tasksService.GetAll();
 
-            if (projectId == null)
+            var userIdClaim = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier") 
+                           ?? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)
+                           ?? User.FindFirst("sub");
+            
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
             {
-                return View(new List<Tasks>());
+                ViewBag.CurrentUserId = userId;
             }
 
-            var allTasks = await _tasksService.GetAll();
-            var tasks = allTasks.Where(t => t.ProjectId == projectId).ToList();
-            return View(tasks);
+            var model = projects.Select(p => new ProjectBoardViewModel
+            {
+                Project = p,
+                Tasks = allTasks.Where(t => t.ProjectId == p.Id).ToList()
+            }).ToList();
+
+            return View(model);
         }
 
         [HttpGet("Create")]
@@ -52,6 +61,25 @@ namespace PostMVC.Controllers
             if (!ModelState.IsValid) return View(task);
             await _tasksService.Add(task);
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost("ToggleComplete/{id}")]
+        public async Task<ActionResult> ToggleComplete(int id)
+        {
+            var task = await _tasksService.GetById(id);
+            if (task == null) return NotFound();
+
+            task.IsCompleted = !task.IsCompleted;
+            await _tasksService.Update(task);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost("Delete/{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await _tasksService.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }

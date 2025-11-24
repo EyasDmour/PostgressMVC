@@ -6,4 +6,6 @@ public interface IProjectsService
 {
     Task<IEnumerable<Projects>> GetAll();
     Task Add(Projects project);
+    Task Delete(int id);
+    Task AddMember(int projectId, string username);
 }
