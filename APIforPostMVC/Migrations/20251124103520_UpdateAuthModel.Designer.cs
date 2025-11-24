@@ -3,6 +3,7 @@ using System;
 using APIforPostMVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace APIforPostMVC.Migrations
 {
     [DbContext(typeof(PostMVCContext))]
-    partial class PostMVCContextModelSnapshot : ModelSnapshot
+    [Migration("20251124103520_UpdateAuthModel")]
+    partial class UpdateAuthModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using PostMVC.Data;
 using PostMVC.Data.Service;
@@ -6,12 +7,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<PostMVC.Data.Service.ITasksService, PostMVC.Data.Service.TasksService>();
 
-builder.Services.AddDbContext<PostMVCContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Register HttpClient
+builder.Services.AddHttpClient();
 
-builder.Services.AddScoped<IProjectsService, ProjectsService>();
+// Register Services
+builder.Services.AddScoped<IProjectsService, ApiProjectsService>();
+builder.Services.AddScoped<ITasksService, ApiTasksService>();
+builder.Services.AddScoped<IAuthService, ApiAuthService>();
+
+// Configure Cookie Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Auth/Login";
+        options.LogoutPath = "/Auth/Logout";
+    });
 
 var app = builder.Build();
 
@@ -26,6 +37,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

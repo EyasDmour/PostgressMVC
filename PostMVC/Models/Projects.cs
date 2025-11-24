@@ -17,6 +17,10 @@ public class Projects
     [Required]
     
     public int Priority { get; set; }
+    
+    // Added to match API model structure for serialization, though not used for DB logic in MVC anymore
+    public int? OwnerId { get; set; }
+
     public override string ToString()
     {
         return $"Project(Id={Id}, Name={Name}, Description={Description}, StartDate={StartDate}, EndDate={EndDate}, Priority={Priority})";

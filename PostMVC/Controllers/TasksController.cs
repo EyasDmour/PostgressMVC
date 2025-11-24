@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PostMVC.Data;
 using PostMVC.Data.Service;
@@ -5,29 +6,31 @@ using PostMVC.Models;
 
 namespace PostMVC.Controllers
 {
+    [Authorize]
     [Route("Tasks")]
     public class TasksController : Controller
     {
         private readonly ITasksService _tasksService;
-        private readonly PostMVCContext _context;
+        private readonly IProjectsService _projectsService;
 
-        public TasksController(ITasksService tasksService, PostMVCContext context)
+        public TasksController(ITasksService tasksService, IProjectsService projectsService)
         {
             _tasksService = tasksService;
-            _context = context;
+            _projectsService = projectsService;
         }
 
         [HttpGet("")]
-        public ActionResult Index(int? projectId)
+        public async Task<ActionResult> Index(int? projectId)
         {
-            ViewBag.Projects = _context.Projects.ToList();
+            ViewBag.Projects = await _projectsService.GetAll();
 
             if (projectId == null)
             {
                 return View(new List<Tasks>());
             }
 
-            var tasks = _context.Tasks.Where(t => t.ProjectId == projectId).ToList();
+            var allTasks = await _tasksService.GetAll();
+            var tasks = allTasks.Where(t => t.ProjectId == projectId).ToList();
             return View(tasks);
         }
 

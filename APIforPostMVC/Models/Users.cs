@@ -13,10 +13,7 @@ public class Users
     public string Email { get; set; } = string.Empty;
 
     [Required]
-    public byte[] PasswordHash { get; set; } = Array.Empty<byte>();
-
-    [Required]
-    public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
+    public string PasswordHash { get; set; } = string.Empty;
 
     [Required]
     public string Role { get; set; } = "User";

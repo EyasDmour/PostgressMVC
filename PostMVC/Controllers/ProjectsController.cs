@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PostMVC.Data.Service;
@@ -5,6 +6,7 @@ using PostMVC.Models;
 
 namespace PostMVC.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private readonly IProjectsService _projectsService;

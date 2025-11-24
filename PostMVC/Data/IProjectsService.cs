@@ -6,6 +6,4 @@ public interface IProjectsService
 {
     Task<IEnumerable<Projects>> GetAll();
     Task Add(Projects project);
-
-
 }
